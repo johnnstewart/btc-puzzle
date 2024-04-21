@@ -1,7 +1,7 @@
 
-Flip the Black Card: Press "Q" or tap/click the "Flip Card A" button.
+Flip the Black Card: Press "Q" or tap/click the "Flip Black Card" button.
 
-Flip the Silver Card: Press "W" or tap/click the "Flip Card B" button.
+Flip the Silver Card: Press "W" or tap/click the "Flip Silver Card" button.
 
 Moving Cards:
 On Desktop: Click and hold the Silver Card, then move your mouse.
