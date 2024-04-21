@@ -17,7 +17,7 @@ Keyboard Controls:
 Arrow keys: Control Card B's movement.
 
 Puzzle info:
-BitcoinTalk Thread
+[BitcoinTalk Thread](https://bitcointalk.org/index.php?topic=5493466.40)
  
 
 bc1qf3utr757cp98h0hlg690qtegul0xp47rx06jse
