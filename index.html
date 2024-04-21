@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="fav.png">
+  <title>BTC Puzzle</title>
+  <style>
+    body { 
+      margin: 0;
+      overflow: hidden;
+      perspective: 1000px;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f3f4f6;
+    }
+    
+    .container {
+      width: 90vw; /* Updated */
+      max-width: 600px; /* Updated */
+      height: 60vh; /* Updated */
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      backface-visibility: hidden;
+      cursor: pointer;
+      border: 2px solid rgba(51, 51, 51, 0.2);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: rgba(255, 255, 255, 0); /* Transparency added here */
+    }
+
+    .front, .back {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0);
+      backface-visibility: hidden;
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      pointer-events: none; /* Add this line */
+    }
+
+    .card img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .button-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Stylish Buttons */
+    .button {
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #444344;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #353535;
+    }
+
+    /* Modal */
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1; 
+      left: 0;
+      top: 0;
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgba(0,0,0,0.4); 
+      padding-top: 60px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto; 
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; 
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        width: 90vw;
+        max-width: 400px;
+        height: 50vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button class="button" onclick="flipCardA()">Flip Card A (Q)</button>
+    <button class="button" onclick="flipCardB()">Flip Card B (W)</button>
+    <button class="button" id="myBtn">Info</button>
+  </div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <b>Flipping Cards:</b>
+      <p>Flip Card A: Press "Q" or tap/click the "Flip Card A" button.</p>
+      <p>Flip Card B: Press "W" or tap/click the "Flip Card B" button.</p>
+      <b>Moving Cards:</b>
+      <p>On Desktop: Click and hold Card B, then move your mouse.</p>
+      <p>On Mobile/Tablet: Tap and hold Card B, then drag your finger.</p>
+      <b>Additional Features:</b>
+      <p>Click "Info" to open a modal window.</p>
+      <p>To close the modal, click the "X" or anywhere outside it.</p>
+      <b>Keyboard Controls:</b>
+      <p>Arrow keys: Control Card B's movement.</p>
+      <b>Puzzle info:</b><br>
+      <a href="https://bitcointalk.org/index.php?topic=5493466.0">BitcoinTalk Thread</a>
+      <p>&nbsp</p>
+      <b>bc1qf3utr757cp98h0hlg690qtegul0xp47rx06jse</b>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="card" id="cardA">
+      <div class="front">
+        <img src="1f.png" alt="Placeholder A">
+      </div>
+      <div class="back">
+        <img src="1b.png" alt="Placeholder A">
+      </div>
+    </div>
+    <div class="card" id="cardB">
+      <div class="front">
+        <img src="2f.png" alt="Placeholder B">
+      </div>
+      <div class="back">
+        <img src="2b.png" alt="Placeholder B">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const cardA = document.getElementById('cardA');
+    const cardB = document.getElementById('cardB');
+    let isFlippedA = false;
+    let isFlippedB = false;
+
+    // Event listeners
+    document.addEventListener('keydown', onKeyDown, false);
+    cardB.addEventListener('mousedown', onMouseDown, false);
+    cardB.addEventListener('touchstart', onTouchStart, false);
+    cardB.addEventListener('mouseup', onMouseUp, false);
+    cardB.addEventListener('touchend', onTouchEnd, false);
+    cardB.addEventListener('mousemove', onMouseMove, false);
+    cardB.addEventListener('touchmove', onTouchMove, false);
+
+    function onKeyDown(event) {
+      const speed = 10;
+      switch (event.key) {
+        case "ArrowUp":
+          moveCard(0, -speed);
+          break;
+        case "ArrowDown":
+          moveCard(0, speed);
+          break;
+        case "ArrowLeft":
+          moveCard(-speed, 0);
+          break;
+        case "ArrowRight":
+          moveCard(speed, 0);
+          break;
+        case "q":
+        case "Q":
+          flipCardA();
+          break;
+        case "w":
+        case "W":
+          flipCardB();
+          break;
+      }
+    }
+
+    let isDragging = false;
+    let offsetX, offsetY;
+    let mouseX, mouseY;
+
+    function onMouseDown(event) {
+      isDragging = true;
+      offsetX = event.clientX - cardB.offsetLeft;
+      offsetY = event.clientY - cardB.offsetTop;
+    }
+
+    function onTouchStart(event) {
+      isDragging = true;
+      offsetX = event.touches[0].clientX - cardB.offsetLeft;
+      offsetY = event.touches[0].clientY - cardB.offsetTop;
+    }
+
+    function onMouseUp() {
+      isDragging = false;
+    }
+
+    function onTouchEnd() {
+      isDragging = false;
+    }
+
+    function onMouseMove(event) {
+      if (isDragging) {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+
+        cardB.style.left = (mouseX - offsetX) + 'px';
+        cardB.style.top = (mouseY - offsetY) + 'px';
+      }
+    }
+
+    function onTouchMove(event) {
+      if (isDragging) {
+        mouseX = event.touches[0].clientX;
+        mouseY = event.touches[0].clientY;
+
+        cardB.style.left = (mouseX - offsetX) + 'px';
+        cardB.style.top = (mouseY - offsetY) + 'px';
+      }
+    }
+
+    function flipCardA() {
+      if (!isFlippedA) {
+        cardA.querySelector('.front').style.transform = 'rotateY(-180deg)';
+        cardA.querySelector('.back').style.transform = 'rotateY(0deg)';
+        isFlippedA = true;
+      } else {
+        cardA.querySelector('.front').style.transform = 'rotateY(0deg)';
+        cardA.querySelector('.back').style.transform = 'rotateY(180deg)';
+        isFlippedA = false;
+      }
+    }
+
+    function flipCardB() {
+      if (!isFlippedB) {
+        cardB.querySelector('.front').style.transform = 'rotateY(-180deg)';
+        cardB.querySelector('.back').style.transform = 'rotateY(0deg)';
+        isFlippedB = true;
+      } else {
+        cardB.querySelector('.front').style.transform = 'rotateY(0deg)';
+        cardB.querySelector('.back').style.transform = 'rotateY(180deg)';
+        isFlippedB = false;
+      }
+    }
+
+    function moveCard(x, y) {
+      cardB.style.left = cardB.offsetLeft + x + 'px';
+      cardB.style.top = cardB.offsetTop + y + 'px';
+    }
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
