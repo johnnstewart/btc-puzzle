@@ -1,20 +1,15 @@
 Flipping Cards:
-Flip Card A: Press "Q" or tap/click the "Flip Card A" button.
+Flip the Black Card: Press "Q" or tap/click the "Flip Card A" button.
 
-Flip Card B: Press "W" or tap/click the "Flip Card B" button.
+Flip the Silver Card: Press "W" or tap/click the "Flip Card B" button.
 
 Moving Cards:
-On Desktop: Click and hold Card B, then move your mouse.
+On Desktop: Click and hold the Silver Card, then move your mouse.
 
-On Mobile/Tablet: Tap and hold Card B, then drag your finger.
-
-Additional Features:
-Click "Info" to open a modal window.
-
-To close the modal, click the "X" or anywhere outside it.
+On Mobile/Tablet: Tap and hold the Silver Card, then drag your finger.
 
 Keyboard Controls:
-Arrow keys: Control Card B's movement.
+Arrow keys: Control the Silver Card movement.
 
 Puzzle info:
 [BitcoinTalk Thread](https://bitcointalk.org/index.php?topic=5493466.40)
