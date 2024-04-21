@@ -1,4 +1,4 @@
-Flipping Cards:
+
 Flip the Black Card: Press "Q" or tap/click the "Flip Card A" button.
 
 Flip the Silver Card: Press "W" or tap/click the "Flip Card B" button.
@@ -9,7 +9,7 @@ On Desktop: Click and hold the Silver Card, then move your mouse.
 On Mobile/Tablet: Tap and hold the Silver Card, then drag your finger.
 
 Keyboard Controls:
-Arrow keys: Control the Silver Card movement.
+Arrow keys can Control the Silver Card movement.
 
 Puzzle info:
 [BitcoinTalk Thread](https://bitcointalk.org/index.php?topic=5493466.40)
